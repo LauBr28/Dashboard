@@ -16,25 +16,29 @@ nuestro modelo predice la productividad real (0–10).
 # --- Formulario de entrada ---
 st.sidebar.header("Input de usuario")
 def user_input():
+    gender = st.sidebar.selectbox("Género", ["Male", "Female", "Other"])
+    job_type = st.sidebar.selectbox("Tipo de trabajo", ["IT", "Health", "Finance", "Student", "Unemployed"])
+    platform = st.sidebar.selectbox("Red social preferida", ["Instagram", "TikTok", "Other"])
+
     data = {
-      'number_of_notifications': st.sidebar.number_input("Notificaciones/día", min_value=0, max_value=200, value=60),
-      'work_hours_per_day':      st.sidebar.slider("Horas de trabajo/día", 0.0, 16.0, 8.0),
-      'stress_level':            st.sidebar.slider("Estrés (1–10)", 1.0, 10.0, 5.0),
-      'sleep_hours':             st.sidebar.slider("Sueño (h/noches)", 0.0, 12.0, 7.0),
-      'screen_time_before_sleep':st.sidebar.slider("Tiempo pantalla antes de dormir", 0.0, 5.0, 1.0),
-      'breaks_during_work':      st.sidebar.number_input("Pausas en trabajo", min_value=0, max_value=20, value=5),
-      'uses_focus_apps':         st.sidebar.selectbox("Usa apps de enfoque", [0,1]),
-      'has_digital_wellbeing_enabled': st.sidebar.selectbox("Bienestar digital ON", [0,1]),
-      'coffee_consumption_per_day':     st.sidebar.number_input("Tazas de café/día", 0, 10, 2),
-      'days_feeling_burnout_per_month': st.sidebar.number_input("Días de burnout/mes", 0, 31, 5),
-      'job_satisfaction_score':         st.sidebar.slider("Satisfacción (0–10)", 0.0, 10.0, 5.0),
-      'social_media_log':               st.sidebar.number_input("Log(SM time)", 0.0, 5.0, 1.5),
-      # Para variables one-hot, usa selectbox y luego convertir a 0/1:
-      'gender_Male':      int(st.sidebar.selectbox("Género", ["Other","Male","Female"])=="Male"),
-      'gender_Other':     int(st.sidebar.selectbox("", ["Other","Male","Female"])=="Other"),
-      # ... y así con job_type_* y social_platform_preference_*
+        'number_of_notifications': st.sidebar.number_input("Notificaciones/día", min_value=0, max_value=200, value=60),
+        'work_hours_per_day':      st.sidebar.slider("Horas de trabajo/día", 0.0, 16.0, 8.0),
+        'stress_level':            st.sidebar.slider("Estrés (1–10)", 1.0, 10.0, 5.0),
+        'sleep_hours':             st.sidebar.slider("Sueño (h/noches)", 0.0, 12.0, 7.0),
+        'screen_time_before_sleep':st.sidebar.slider("Tiempo pantalla antes de dormir", 0.0, 5.0, 1.0),
+        'breaks_during_work':      st.sidebar.number_input("Pausas en trabajo", min_value=0, max_value=20, value=5),
+        'uses_focus_apps':         st.sidebar.selectbox("Usa apps de enfoque", [0,1]),
+        'has_digital_wellbeing_enabled': st.sidebar.selectbox("Bienestar digital ON", [0,1]),
+        'coffee_consumption_per_day':     st.sidebar.number_input("Tazas de café/día", 0, 10, 2),
+        'days_feeling_burnout_per_month': st.sidebar.number_input("Días de burnout/mes", 0, 31, 5),
+        'job_satisfaction_score':         st.sidebar.slider("Satisfacción (0–10)", 0.0, 10.0, 5.0),
+        'social_media_log':               st.sidebar.number_input("Log(SM time)", 0.0, 5.0, 1.5),
+        'gender': gender,
+        'job_type': job_type,
+        'social_platform_preference': platform
     }
     return pd.DataFrame([data])
+
 
 df_input = user_input()
 
