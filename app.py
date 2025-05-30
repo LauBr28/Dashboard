@@ -47,6 +47,8 @@ st.subheader("Datos procesados")
 st.write(df_input)
 
 X_proc = preprocessor.transform(df_input)
+
+
 pred   = model.predict(X_proc)
 
 st.subheader("Predicción de Productividad")
