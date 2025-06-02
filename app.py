@@ -214,6 +214,7 @@ new_val = st.slider(
     max_value=float(current_val*2 if current_val != 0 else 10),
     value=float(current_val)
 )
+)
 
 if new_val != current_val:
     df_sim = df_input.copy()
