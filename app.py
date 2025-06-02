@@ -136,7 +136,7 @@ sim_results = []
 for val in sim_values:
     df_sim = df_input.copy()
     df_sim[variable] = val
-    sim_results.append(model.predict(preprocessor.transform(df_sim))[0]
+    sim_results.append(model.predict(preprocessor.transform(df_sim))[0])
 
 sim_data = pd.DataFrame({
     variable: sim_values,
@@ -169,7 +169,7 @@ elif pred[0] < 7.5:
 else:
     st.success("✅ **Rendimiento óptimo:** Mantenga sus hábitos actuales.")
 
-    
+
 st.markdown("---")
 st.markdown("""
 **🔧 Tecnología:**  
