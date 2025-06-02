@@ -18,8 +18,7 @@ with st.expander("📌 ¿Cómo funciona este modelo?", expanded=True):
     🔍 **Hallazgos clave:**  
     - Variables críticas: Satisfacción laboral (20.3%), Horas de sueño (18.7%), Estrés (15.2%).  
     - Hábitos digitales explican solo el 9.8% del impacto.  
-    """)
-    st.image("feature_importance.png")  # Añade tu gráfico de importancia aquí
+    """)# Añade tu gráfico de importancia aquí
 
 # --- Formulario de entrada ---
 
