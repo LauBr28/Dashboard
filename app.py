@@ -110,6 +110,9 @@ X_proc = preprocessor.transform(df_input)
 
 pred   = model.predict(X_proc)
 
+# Definir el nivel de productividad ANTES de usarlo
+nivel = "Alta" if pred[0] >= 7.5 else ("Media" if pred[0] >= 5 else "Baja")
+
 st.subheader("📊 Resultados de la Predicción")
 col1, col2 = st.columns(2)
 with col1:
