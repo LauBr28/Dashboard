@@ -59,37 +59,53 @@ st.write(df_input)
 
 # --- Preparar input para predicción ---
 try:
-    # Validación: verificar que todas las columnas requeridas existen
     expected_cols = preprocessor.feature_names_in_
     for col in expected_cols:
         if col not in df_input.columns:
-            df_input[col] = np.nan  # llenar columna faltante si algo falla
+            df_input[col] = np.nan
 
-    # Transformar el input (forzar imputación aunque haya valores faltantes)
     X_proc = preprocessor.transform(df_input[expected_cols])
     pred = model.predict(X_proc)
+
+    # --- Ajuste manual basado en reglas lógicas ---
+    adjustment = 0
+
+    if df_input['sleep_hours'].iloc[0] >= 8:
+        adjustment += 0.5
+
+    if df_input['stress_level'].iloc[0] >= 8:
+        adjustment -= 0.7
+
+    if df_input['screen_time_before_sleep'].iloc[0] >= 3:
+        adjustment -= 0.4
+
+    if df_input['uses_focus_apps'].iloc[0] == 1:
+        adjustment += 0.3
+
+    # Aplicar el ajuste y limitar entre 0 y 10
+    pred_adjusted = np.clip(pred[0] + adjustment, 0, 10)
 
 except Exception as e:
     st.error(f"❌ Error durante la predicción: {e}")
     st.stop()
 
 # --- Interpretación ---
-nivel = "Alta" if pred[0] >= 7.5 else ("Media" if pred[0] >= 5 else "Baja")
+nivel = "Alta" if pred_adjusted >= 7.5 else ("Media" if pred_adjusted >= 5 else "Baja")
 
 # --- Mostrar resultado ---
 st.subheader("📊 Resultados de la Predicción")
 col1, col2 = st.columns(2)
 with col1:
-    st.metric("Productividad Predicha (0-10)", f"{pred[0]:.2f}", f"{'↑ Alta' if pred[0]>=7.5 else ('→ Media' if pred[0]>=5 else '↓ Baja')}")
+    st.metric("Productividad Predicha (0-10)", f"{pred_adjusted:.2f}", f"{'↑ Alta' if pred_adjusted>=7.5 else ('→ Media' if pred_adjusted>=5 else '↓ Baja')}")
 with col2:
     st.metric("Error Estimado", "±1.13 puntos", help="RMSE del modelo en datos de prueba")
 
-st.progress(min(pred[0]/10, 1.0))
-st.caption(f"*Interpretación:* {nivel} productividad ({'Se recomiendan intervenciones' if pred[0]<5 else 'Rendimiento adecuado' if pred[0]<7.5 else 'Desempeño óptimo'})")
+st.progress(min(pred_adjusted/10, 1.0))
+st.caption(f"*Interpretación:* {nivel} productividad ({'Se recomiendan intervenciones' if pred_adjusted<5 else 'Rendimiento adecuado' if pred_adjusted<7.5 else 'Desempeño óptimo'})")
 
 # --- Recomendaciones ---
 st.subheader("🎯 Recomendaciones Personalizadas")
-if pred[0] < 5:
+if pred_adjusted < 5:
     st.warning(f"""
 ⚠️ *Acciones prioritarias:*  
 - Mejorar satisfacción laboral (actual: {df_input['job_satisfaction_score'].iloc[0]:.1f}/10).  
@@ -97,7 +113,7 @@ if pred[0] < 5:
 - Reducir estrés (actual: {df_input['stress_level'].iloc[0]:.1f}/10).  
 - Limitar redes sociales (actual: {df_input['social_media_log'].iloc[0]:.1f} log-horas).  
 """)
-elif pred[0] < 7.5:
+elif pred_adjusted < 7.5:
     st.info(f"""
 ℹ️ *Oportunidades de mejora:*  
 - Optimizar pausas laborales (actuales: {df_input['breaks_during_work'].iloc[0]} por día).  
@@ -114,3 +130,11 @@ st.markdown("""
 - Modelo: Gradient Boosting (R²=0.65, RMSE=1.13).  
 - Datos: 30k registros con 19 características.  
 """)
+
+with st.expander("🔍 Lógica esperada del modelo", expanded=False):
+    st.markdown("""
+    - Más horas de sueño → ↑ productividad  
+    - Más estrés → ↓ productividad  
+    - Más tiempo en pantalla antes de dormir → ↓ productividad  
+    - Uso de apps de enfoque → ↑ productividad  
+    """)
