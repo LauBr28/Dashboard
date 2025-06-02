@@ -85,6 +85,12 @@ try:
 
     if df_input['uses_focus_apps'].iloc[0] == 1:
         adjustment += 0.3
+        # Ajuste por horas de trabajo
+    if df_input['work_hours_per_day'].iloc[0] >= 7:
+        adjustment += 0.4
+    elif df_input['work_hours_per_day'].iloc[0] <= 5:
+        adjustment -= 0.5
+
 
     # Aplicar el ajuste y limitar entre 0 y 10
     pred_adjusted = np.clip(pred[0] + adjustment, 0, 10)
