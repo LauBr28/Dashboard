@@ -127,25 +127,6 @@ st.progress(pred[0]/10)
 st.caption(f"**Interpretación:** {nivel} productividad ({'Se recomiendan intervenciones' if pred[0]<5 else 'Rendimiento adecuado' if pred[0]<7.5 else 'Desempeño óptimo'})")
 
 
-st.subheader("📈 Simulador de Escenarios")
-variable = st.selectbox("¿Qué variable desea simular?", 
-                       ["sleep_hours", "social_media_log", "job_satisfaction_score"])
-range_values = st.slider(f"Rango de {variable}", 0.0, 10.0 if variable!="sleep_hours" else 12.0, (3.0, 7.0))
-
-# Simulación básica (ejemplo)
-sim_values = [range_values[0], (range_values[0]+range_values[1])/2, range_values[1]]
-sim_results = []
-for val in sim_values:
-    df_sim = df_input.copy()
-    df_sim[variable] = val
-    sim_results.append(model.predict(preprocessor.transform(df_sim))[0])
-
-sim_data = pd.DataFrame({
-    variable: sim_values,
-    "Productividad": sim_results
-})
-
-st.line_chart(sim_data.set_index(variable))
 
 st.subheader("🎯 Recomendaciones Personalizadas")
 if pred[0] < 5:
@@ -176,5 +157,5 @@ st.markdown("---")
 st.markdown("""
 **🔧 Tecnología:**  
 - Modelo: Gradient Boosting (R²=0.65, RMSE=1.13).  
-- Datos: Simulados (30k registros) con 19 características.  
+- Datos: (30k registros) con 19 características.  
 """)
