@@ -8,8 +8,7 @@ model        = joblib.load('final_productivity_model.pkl')
 
 st.title("🚀 POC: Sistema de Predicción de Productividad Laboral")
 st.markdown("""
-**Solución basada en IA para identificar cómo los hábitos digitales y factores de estilo de vida afectan el rendimiento laboral.**  
-*Proof of Concept para equipos de People Analytics y Bienestar Corporativo*
+**Solución basada en IA para identificar cómo los factores de estilo de vida y los hábitos digitales afectan el rendimiento laboral.**  
 """)
 
 with st.expander("📌 ¿Cómo funciona este modelo?", expanded=True):
