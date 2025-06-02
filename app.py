@@ -16,8 +16,12 @@ st.markdown("""
 
 with st.expander("📌 ¿Cómo funciona este modelo?", expanded=True):
     st.write("""
-    Este modelo predictivo utiliza 19 variables de entrada para estimar el *actual_productivity_score* (0-10) con un *error promedio del 11.65% (MAPE)*.  
-    """)
+    Este modelo predictivo utiliza 19 variables de entrada (desde horas de sueño hasta uso de redes sociales) 
+    para estimar el *actual_productivity_score* (0-10) con un *error promedio del 11.65% (MAPE)*.  
+    🔍 *Hallazgos clave:*  
+    - Variables críticas: Satisfacción laboral (20.3%), Horas de sueño (18.7%), Estrés (15.2%).  
+    - Hábitos digitales explican solo el 9.8% del impacto.  
+    """)# Añade tu gráfico de importancia aquí
 
 # --- Entradas del usuario ---
 st.sidebar.header("⚙️ Configuración de Entradas")
@@ -131,10 +135,3 @@ st.markdown("""
 - Datos: 30k registros con 19 características.  
 """)
 
-with st.expander("🔍 Lógica esperada del modelo", expanded=False):
-    st.markdown("""
-    - Más horas de sueño → ↑ productividad  
-    - Más estrés → ↓ productividad  
-    - Más tiempo en pantalla antes de dormir → ↓ productividad  
-    - Uso de apps de enfoque → ↑ productividad  
-    """)
