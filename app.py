@@ -33,6 +33,9 @@ def user_input():
     gender = st.sidebar.selectbox("Género", ["Male", "Female", "Other"])
     job_type = st.sidebar.selectbox("Tipo de trabajo", ["IT", "Health", "Finance", "Student", "Unemployed"])
     platform = st.sidebar.selectbox("Red social preferida", ["Instagram", "TikTok", "Other"])
+    uses_focus_apps = st.sidebar.radio("¿Usa apps de enfoque?", ["Sí", "No"])
+    has_digital_wellbeing_enabled = st.sidebar.radio("¿Bienestar digital activado?", ["Sí", "No"])
+
 
     data = {
         'number_of_notifications': clamp(int(st.sidebar.number_input("Notificaciones por día", 0, 200, 60)), 0, 200),
@@ -41,12 +44,12 @@ def user_input():
         'sleep_hours': clamp(float(st.sidebar.slider("Horas de sueño", 0.0, 12.0, 7.0)), 0.0, 12.0),
         'screen_time_before_sleep': clamp(float(st.sidebar.slider("Pantalla antes de dormir", 0.0, 5.0, 1.0)), 0.0, 5.0),
         'breaks_during_work': clamp(int(st.sidebar.number_input("Pausas durante el trabajo", 0, 20, 5)), 0, 20),
-        'uses_focus_apps': int(st.sidebar.selectbox("¿Usa apps de enfoque?", [1, 0])),
-        'has_digital_wellbeing_enabled': int(st.sidebar.selectbox("¿Bienestar digital activado?", [1, 0])),
+        'uses_focus_apps': int(uses_focus_apps == "Sí"),
+        'has_digital_wellbeing_enabled': int(has_digital_wellbeing_enabled == "Sí"),
         'coffee_consumption_per_day': clamp(int(st.sidebar.number_input("Tazas de café", 0, 10, 2)), 0, 10),
         'days_feeling_burnout_per_month': clamp(int(st.sidebar.number_input("Días con burnout al mes", 0, 31, 5)), 0, 31),
         'job_satisfaction_score': clamp(float(st.sidebar.slider("Satisfacción laboral", 0.0, 10.0, 5.0)), 0.0, 10.0),
-        'social_media_log': clamp(float(st.sidebar.number_input("Log del tiempo en redes (0.0–5.0)", 0.0, 5.0, 1.5)), 0.0, 5.0),
+        'social_media_log': clamp(float(st.sidebar.number_input("Tiempo en redes sociales (0.0–5.0)", 0.0, 5.0, 1.5)), 0.0, 5.0),
         'gender': gender,
         'job_type': job_type,
         'social_platform_preference': platform
